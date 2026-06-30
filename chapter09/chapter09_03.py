@@ -1,7 +1,6 @@
-#자바 상속(부모것은 내것, 자식은 반드시 super(), 오버라이딩) 다중상속안됨(모호성)
-#파이썬 상속(부모것은 내것, 자식은 부모.__init__(self,매개변수), super(self가 들어가지 않음), 오버라이딩) 다중상속됨(모호성이 발생하지 않는다. : 순서가 정해져있다.)
+#다중 상속 진행한다. (모호성 해결하는 방법을 구현한다.)
 
-#일반유닛(공격력이 없는 유닛)
+#일반유닛(지상 공격력이 없는 유닛)
 class Unit:
   #생성자
   def __init__(self, name, hp, speed):
@@ -9,9 +8,6 @@ class Unit:
     self.hp = hp
     self.speed = speed
     print(f"{self.name}, 체력 : {self.hp} 이동속도 : {self.speed} 유닛이 생성되었습니다.")
-
-nurse1 = Unit("간호사1", 40, 5)
-nurse1 = Unit("간호사2", 40, 5)
 
 #공격력이 있는 유닛(상속)
 class AttackUnit(Unit):
@@ -34,13 +30,20 @@ class AttackUnit(Unit):
       print(f"{self.name}이(가) 공격을 받아서 남아있는 체력은 {self.hp}입니다.")
 
 
-#화염 방사병 공격 유닛
-fireSoilder = AttackUnit("화염방사병", 40, 10, 10)
+#공중 유무 유닛(공중을 진행할 수 있는 여부 체크)
+class Flyable:
+  def __init__(self, flying_speed):
+    self.flying_speed = flying_speed
 
-#화염방사병 공격명령(2시 방향)
-fireSoilder.attack(2)
+ #멤버함수
+  def fly(self, location):
+    print(f"{self.flying_speed}로 {location}방향으로 날아가고 있습니다.")
 
-#화염방사병이 공격을 받는다.
-fireSoilder.damaged(20)
-fireSoilder.damaged(10)
-fireSoilder.damaged(10)
+#다중상속  (지상공격유닛, 공중 유무 유닛)
+
+class FlyableAttackUnit(AttackUnit,Flyable):
+  def __init__(self, name, hp, damage, speed, flying_speed):
+    AttackUnit.__init__(self, name, hp, damage, speed)
+    Flyable.__init__(self, flying_speed)
+
+
