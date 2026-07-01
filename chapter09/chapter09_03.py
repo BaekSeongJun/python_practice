@@ -8,6 +8,9 @@ class Unit:
     self.hp = hp
     self.speed = speed
     print(f"{self.name}, 체력 : {self.hp} 이동속도 : {self.speed} 유닛이 생성되었습니다.")
+  
+  def move(self,location):
+    print(f"{self.name} 지상 유닛이 {location} 방향으로 가고 있습니다.")
 
 #공격력이 있는 유닛(상속)
 class AttackUnit(Unit):
@@ -36,8 +39,8 @@ class Flyable:
     self.flying_speed = flying_speed
 
  #멤버함수
-  def fly(self, location):
-    print(f"{self.flying_speed}로 {location}방향으로 날아가고 있습니다.")
+  def fly(self, name, location):
+    print(f"{name} 유닛이 {self.flying_speed}로 {location}방향으로 날아가고 있습니다.")
 
 #다중상속  (지상공격유닛, 공중 유무 유닛)
 
@@ -46,4 +49,12 @@ class FlyableAttackUnit(AttackUnit,Flyable):
     AttackUnit.__init__(self, name, hp, damage, speed)
     Flyable.__init__(self, flying_speed)
 
+  def move(self,location):
+    print(f"{self.name} 공중 유닛이 {location} 방향으로 {self.flying_speed} 속도로 날아 가고 있습니다.")
 
+#공격기능을 가진 interceptor 객체 생성
+interceptor = FlyableAttackUnit("요격기", 300, 80, 0, 200)
+# interceptor.attack(2)
+# interceptor.damaged(60)
+# interceptor.fly(interceptor.name,"4시")    
+interceptor.move("3시")
